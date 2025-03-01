@@ -120,7 +120,7 @@
     </div>
   </template>
   
-<script>
+  <script>
   import axios from 'axios'
   export default {
     data() {
@@ -157,7 +157,7 @@
         }
       },
       editInvoice(id) {
-        console.log('Editing invoice:', id);
+        this.$router.push(`/invoices/edit/${id}`);
       },
       confirmLogout() {
         this.logoutDialog = true;
@@ -187,7 +187,8 @@
       this.fetchInvoices(); // Fetch data when component is mounted
     }
   };
-  </script>
+</script>
+
   
   <style scoped>
   .dashboard-container {

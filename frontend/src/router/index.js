@@ -27,11 +27,17 @@ const route = [
     name: "InvociesPage",
     component: DashBoard,
   },
+  // In your router configuration (e.g., router/index.js)
+  {
+    path: "/invoices/edit/:id",
+    name: "EditInvoice",
+    component: CreateNewInvoicePage
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes : route,
+  routes: route,
 });
 
 // Workaround for https://github.com/vitejs/vite/issues/11804
