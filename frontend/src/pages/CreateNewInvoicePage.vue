@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import axios from 'axios'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -130,15 +131,41 @@ const prevStep = () => {
   }
 }
 
-const submitInvoice = () => {
+const submitInvoice = async() => {
   // Here you would typically send the data to your backend API
   console.log('Submitting invoice:', {
     invoiceDetails: invoiceDetails.value,
     items: items.value,
     total: total.value
   })
-  
-  // Navigate back to dashboard after submission
+  const invoiceData = {
+    company: {
+      name: invoiceDetails.value.customerName,
+      mobileNo: invoiceDetails.value.customerPhone,
+      email: invoiceDetails.value.customerEmail,
+      gstin: invoiceDetails.value.customerGSTIN,
+      address: invoiceDetails.value.customerAddress,
+    },
+    invoiceToDetails: {
+      paymentDate: invoiceDetails.value.invoiceDate,
+      name: invoiceDetails.value.recipientName,
+      mobileNo: invoiceDetails.value.recipientPhone,
+      emailId: invoiceDetails.value.recipientEmail,
+      pincode: invoiceDetails.value.recipientPincode,
+      city: invoiceDetails.value.recipientCity,
+      state: invoiceDetails.value.recipientState,
+      address: invoiceDetails.value.recipientAddress,
+    },
+    transactionDetails: items.value.map(item => ({
+      product: item.product,
+      rate: item.rate,
+      quantity: item.quantity,
+      discount: item.discount,
+      total: item.total
+    })),
+    createdBy: "USER"
+  }
+  const response = await axios.post("https://invoices-codenicely-be.onrender.com/api/invoices/add", invoiceData)
   router.push('/dashboard')
 }
 
