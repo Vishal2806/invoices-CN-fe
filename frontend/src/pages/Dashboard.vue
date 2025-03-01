@@ -164,6 +164,7 @@
       },
       logout() {
         this.logoutDialog = false;
+        localStorage.removeItem("token");
         this.$router.push('/');
       },
       parseInvoices(invoices) {
@@ -180,6 +181,9 @@
       }
     },
     mounted() {
+      if (!localStorage.getItem("token")) {
+        this.$router.push('/');
+      }
       this.fetchInvoices(); // Fetch data when component is mounted
     }
   };

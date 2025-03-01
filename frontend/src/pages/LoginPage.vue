@@ -35,11 +35,10 @@
     methods: {
       async login() {
         try {
-          const response = await axios.post("http://localhost:5000/api/login", {
+          const response = await axios.post("https://invoices-codenicely-be.onrender.com/api/user/login", {
             email: this.email,
             password: this.password,
           });
-  
           localStorage.setItem("token", response.data.token); // Save token
           this.$router.push("/dashboard"); // Redirect to dashboard
         } catch (error) {

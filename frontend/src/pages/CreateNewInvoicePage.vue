@@ -6,6 +6,9 @@ const router = useRouter()
 const currentStep = ref(1)
 const totalSteps = 3
 
+if (!localStorage.getItem("token")) {
+  router.push('/')
+}
 // Step 1: Invoice Details
 const invoiceDetails = ref({
   // Company Details
@@ -148,6 +151,12 @@ const paymentModes = ['Cash', 'Credit Card', 'Debit Card', 'UPI', 'Bank Transfer
 
 // Generate invoice number
 const invoiceNumber = '#' + Math.floor(1000000 + Math.random() * 9000000)
+
+const logout = () => {
+  localStorage.removeItem("token");
+  router.push('/');
+}
+
 </script>
 
 <template>
@@ -167,7 +176,7 @@ const invoiceNumber = '#' + Math.floor(1000000 + Math.random() * 9000000)
       </v-list>
       
       <div class="logout-container">
-        <v-btn variant="outlined" color="error" block class="logout-btn">
+        <v-btn variant="outlined" color="error" block class="logout-btn" @click="logout">
           Logout
         </v-btn>
       </div>
