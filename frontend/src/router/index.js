@@ -9,7 +9,7 @@ import { createRouter, createWebHistory } from "vue-router/auto";
 import { routes } from "vue-router/auto-routes";
 import LoginPage from "../pages/LoginPage.vue";
 import CreateNewInvoicePage from "../pages/CreateNewInvoicePage.vue";
-import InvociesPage from "../pages/InvociesPage.vue";
+import DashBoard from "../pages/Dashboard.vue";
 import { components } from "vuetify/dist/vuetify-labs.js";
 const route = [
   {
@@ -25,7 +25,7 @@ const route = [
   {
     path: "/dashboard",
     name: "InvociesPage",
-    component: InvociesPage,
+    component: DashBoard,
   },
 ];
 
