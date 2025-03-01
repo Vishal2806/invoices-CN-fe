@@ -15,13 +15,16 @@ if (!localStorage.getItem("token")) {
 
 // Step 1: Invoice Details
 const invoiceDetails = ref({
-  customerName: "",
-  customerPhone: "",
-  customerEmail: "",
-  customerGSTIN: "",
-  customerAddress: "",
-  paymentDate: "",
-  paymentMode: "",
+  // Company Details
+  invoiceId :'',
+  customerName: '',
+  customerPhone: '',
+  customerEmail: '',
+  customerGSTIN: '',
+  customerAddress: '',
+  
+  // Invoice To Details
+  paymentMode: '',
   invoiceDate: new Date().toISOString().substr(0, 10),
   recipientName: "",
   recipientPhone: "",
@@ -34,16 +37,8 @@ const invoiceDetails = ref({
 
 // Step 2: Transaction Details
 const items = ref([
-  {
-    id: 1,
-    product: "Note Book (200 pages)",
-    rate: 120,
-    quantity: 20,
-    discount: 200,
-    total: 2400,
-  },
-  { id: 2, product: "", rate: 0, quantity: 0, discount: 0, total: 0 },
-]);
+  { id: 1, product: '', rate: 0, quantity: 0, discount: 0, total: 0 }
+])
 
 // Validation rules
 const nameRules = [
@@ -166,7 +161,12 @@ const submitInvoice = async() => {
     })),
     createdBy: "USER"
   }
-  const response = await axios.post("https://invoices-codenicely-be.onrender.com/api/invoices/add", invoiceData)
+  if(isEditMode.value) {
+    await axios.patch(`https://invoices-codenicely-be.onrender.com/api/invoices/${route.params.id}`, invoiceData)  
+  }
+  else{
+    const response = await axios.post("https://invoices-codenicely-be.onrender.com/api/invoices/add", invoiceData)
+  }
   router.push('/dashboard')
 }
 
@@ -205,11 +205,39 @@ onMounted(async () => {
   if (route.params.id) {
     isEditMode.value = true;
     try {
+
       const response = await axios.get(
         `https://invoices-codenicely-be.onrender.com/api/invoices/${route.params.id}`
       );
-      invoiceDetails.value = response.data.invoice.invoiceToDetails;
-      console.log(JSON.stringify(response));
+      const invoice = response.data.invoice;
+      invoiceDetails.value = {
+        // Company Details
+        invoiceId: invoice.invoiceId || '',
+        customerName: invoice.company.name,
+        customerPhone: invoice.company.mobileNo,
+        customerEmail: invoice.company.email,
+        customerGSTIN: invoice.company.gstin,
+        customerAddress: invoice.company.address,
+        // Invoice To Details
+        paymentMode: invoice.paymentMode || '',
+        invoiceDate: invoice.invoiceToDetails.paymentDate,
+        recipientName: invoice.invoiceToDetails.name,
+        recipientPhone: invoice.invoiceToDetails.mobileNo,
+        recipientEmail: invoice.invoiceToDetails.emailId,
+        recipientPincode: invoice.invoiceToDetails.pincode,
+        recipientCity: invoice.invoiceToDetails.city,
+        recipientState: invoice.invoiceToDetails.state,
+        recipientAddress: invoice.invoiceToDetails.address,
+      };
+      items.value = invoice.transactionDetails.map((item: any, index: number) => ({
+        id: index + 1,
+        product: item.product,
+        rate: item.rate,
+        quantity: item.quantity,
+        discount: item.discount,
+        total: item.total,
+      }));
+      console.log(JSON.stringify(response.data.invoice));
     } catch (error) {
       console.error("Error fetching invoice:", error);
     }
@@ -376,7 +404,7 @@ onMounted(async () => {
               <div class="mb-4">
                 <div class="text-subtitle-2 mb-1">Payment Date</div>
                 <v-text-field
-                  v-model="invoiceDetails.paymentDate"
+                  v-model="invoiceDetails.invoiceDate"
                   type="date"
                   placeholder="Select Payment Date"
                   variant="outlined"
