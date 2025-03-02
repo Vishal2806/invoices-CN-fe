@@ -1,3 +1,8 @@
+**Default Login Credentials**
+
+- **Email:** test@gmail.com
+- **Password:** testgmail
+
 # Invoices Codenicely Frontend
 
 This is the frontend application for the Invoices Codenicely project. It is built using modern web technologies to provide a seamless user experience for managing invoices.
