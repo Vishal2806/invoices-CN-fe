@@ -4,12 +4,12 @@
       <div class="sidebar">
         <div class="logo-container pa-4">
           <div class="d-flex align-center">
-            <v-img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original.svg" max-width="40" class="logo" />
-            <div class="ml-2 text-h6 font-weight-bold text-black">CODE<span class="text-green">NICELY</span></div>
+            <v-img src="../assets/codenicelylogo.png" max-width="150" class="logo" />
+            <!-- <div class="ml-2 text-h6 font-weight-bold text-black">CODE<span class="text-green">NICELY</span></div> -->
           </div>
         </div>
         
-        <v-list>
+        <v-list class = "sidebar-list">
           <v-list-item prepend-icon="mdi-account-group" title="Team" class="sidebar-item"></v-list-item>
           <v-list-item prepend-icon="mdi-file-document" title="Invoice" class="sidebar-item active"></v-list-item>
         </v-list>
@@ -80,7 +80,7 @@
           </div>
   
           <!-- Invoice Table -->
-          <v-table>
+          <v-table class="tablebackground">
             <thead>
               <tr>
                 <th class="text-left">Invoice ID</th>
@@ -91,7 +91,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="invoice in filteredInvoices" :key="invoice.id">
+              <tr class = "tr-bg" v-for="invoice in filteredInvoices" :key="invoice.id">
                 <td>{{ invoice.displayId }}</td>
                 <td>{{ invoice.initiatedOn }}</td>
                 <td>{{ invoice.generatedBy }}</td>
@@ -208,13 +208,17 @@
   
   .sidebar-item {
     border-radius: 0;
+    color: black;
   }
   
   .sidebar-item.active {
     background-color: #1976D2;
-    color: white;
+    color: rgb(252, 248, 248);
   }
-  
+
+  .sidebar-list {
+    background-color: white;  
+}
   .logout-container {
     margin-top: auto;
     padding: 16px;
@@ -250,6 +254,14 @@
     padding: 16px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .tablebackground{
+    background-color: white;
+    color: black;
+  }
+  tr{ 
+    border-bottom: black 1px solid;
+    width: auto;
   }
   </style>
   

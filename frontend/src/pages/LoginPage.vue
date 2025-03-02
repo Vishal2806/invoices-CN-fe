@@ -2,9 +2,12 @@
     <div class="container">
       <div class="login-box">
         <div class="logo-container">
-          <div class="logo-text">
+          <!-- <div class="logo-text">
             <span class="text-black">CODE</span><span class="text-green">NICELY</span>
-          </div>
+
+          </div> -->
+          <v-img src="../assets/codenicelylogo.png" max-width="150" class="logo" />
+
         </div>
         <p class="auth-tagline">Secure & Seamless Authentication</p>
   
