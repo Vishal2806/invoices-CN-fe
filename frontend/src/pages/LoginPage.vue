@@ -42,7 +42,7 @@
             email: this.email,
             password: this.password,
           });
-          localStorage.setItem("token", response.data.token); // Save token
+          localStorage.setItem("token", response.data.token); // token save ho rha hai local storage me
           this.$router.push("/dashboard"); // Redirect to dashboard
         } catch (error) {
           this.errorMessage = "Invalid email or password.";

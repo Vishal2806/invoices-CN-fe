@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import axios from "axios";
@@ -25,7 +25,7 @@ const invoiceDetails = ref({
   
   // Invoice To Details
   paymentMode: '',
-  invoiceDate: new Date().toISOString().substr(0, 10),
+  invoiceDate: new Date().toISOString().slice(0, 10),
   recipientName: "",
   recipientPhone: "",
   recipientEmail: "",
@@ -42,31 +42,31 @@ const items = ref([
 
 // Validation rules
 const nameRules = [
-  (v: string) => !!v || "Name is required",
-  (v: string) =>
+  (v) => !!v || "Name is required",
+  (v) =>
     /^[a-zA-Z\s]+$/.test(v) ||
     "Name cannot contain special characters or numbers",
 ];
 const phoneRules = [
-  (v: string) => !!v || "Phone number is required",
-  (v: string) => /^\d{10}$/.test(v) || "Phone number must be 10 digits",
+  (v) => !!v || "Phone number is required",
+  (v) => /^\d{10}$/.test(v) || "Phone number must be 10 digits",
 ];
 const emailRules = [
-  (v: string) => !!v || "Email is required",
-  (v: string) => /.+@.+\..+/.test(v) || "Email must be valid",
+  (v) => !!v || "Email is required",
+  (v) => /.+@.+\..+/.test(v) || "Email must be valid",
 ];
-const addressRules = [(v: string) => !!v || "Address is required"];
-const gstinRules = [(v: string) => !!v || "GSTIN is required"];
+const addressRules = [(v) => !!v || "Address is required"];
+const gstinRules = [(v) => !!v || "GSTIN is required"];
 const pincodeRules = [
-  (v: string) => !!v || "Pincode is required",
-  (v: string) => /^\d{6}$/.test(v) || "Pincode must be 6 digits",
+  (v) => !!v || "Pincode is required",
+  (v) => /^\d{6}$/.test(v) || "Pincode must be 6 digits",
 ];
-const cityRules = [(v: string) => !!v || "City is required"];
-const stateRules = [(v: string) => !!v || "State is required"];
-const productRules = [(v: string) => !!v || "Product is required"];
-const rateRules = [(v: number) => v > 0 || "Rate must be greater than 0"];
+const cityRules = [(v) => !!v || "City is required"];
+const stateRules = [(v) => !!v || "State is required"];
+const productRules = [(v) => !!v || "Product is required"];
+const rateRules = [(v) => v > 0 || "Rate must be greater than 0"];
 const quantityRules = [
-  (v: number) => v > 0 || "Quantity must be greater than 0",
+  (v) => v > 0 || "Quantity must be greater than 0",
 ];
 
 // Form validation states
@@ -74,11 +74,11 @@ const step1Valid = ref(false);
 const step2Valid = ref(false);
 
 // Calculate totals
-const calculateItemTotal = (item: any) => {
+const calculateItemTotal = (item) => {
   return item.rate * item.quantity - item.discount;
 };
 
-const updateItemTotal = (item: any) => {
+const updateItemTotal = (item) => {
   item.total = calculateItemTotal(item);
 };
 
@@ -97,7 +97,7 @@ const addItem = () => {
   });
 };
 
-const removeItem = (id: number) => {
+const removeItem = (id) => {
   if (items.value.length > 1) {
     items.value = items.value.filter((item) => item.id !== id);
   }
@@ -229,7 +229,7 @@ onMounted(async () => {
         recipientState: invoice.invoiceToDetails.state,
         recipientAddress: invoice.invoiceToDetails.address,
       };
-      items.value = invoice.transactionDetails.map((item: any, index: number) => ({
+      items.value = invoice.transactionDetails.map((item, index) => ({
         id: index + 1,
         product: item.product,
         rate: item.rate,
